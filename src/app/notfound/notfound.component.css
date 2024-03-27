@@ -1,0 +1,21 @@
+.not-found-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--primary-color);
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    color: var(--accent-color);
+}
+
+p {
+    font-size: 2rem;
+    color: var(--accent-color);
+}

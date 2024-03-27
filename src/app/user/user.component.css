@@ -1,0 +1,36 @@
+.user-list {
+    background: var(--accent-color);
+    border-radius: 30px;
+    padding-bottom: 30px;
+}
+
+.user-list-heading {
+    color: var(--primary-color);
+    padding: 10px 20px 0 20px;
+}
+
+.user-list-photo {
+    height: 250px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 30px 30px 0 0;
+}
+
+.user-list-repo {
+    padding: 10px 20px 20px 20px;
+}
+
+.user-list-repo::before {
+    content: url("/assets/location-pin.svg") / "";
+}
+
+section.user-list a {
+    padding-left: 20px;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+section.user-list a::after {
+    content: "\203A";
+    margin-left: 5px;
+}
