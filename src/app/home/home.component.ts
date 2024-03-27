@@ -28,8 +28,16 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
         </button>
       </form>
       <section class="results">
-        <div *ngIf="loading" class="loading-text">Loading...</div>
-        <div *ngIf="usersList.length === 0" class="loading-text">
+        <div *ngIf="loading && !errorMessage" class="loading-text">
+          Loading...
+        </div>
+        <div *ngIf="errorMessage && !loading" class="error-text">
+          {{ errorMessage }}
+        </div>
+        <div
+          *ngIf="usersList.length === 0 && !errorMessage"
+          class="loading-text"
+        >
           Loading...
         </div>
         <app-user *ngFor="let u of usersList" [user]="u"></app-user>
@@ -41,6 +49,7 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 export class HomeComponent {
   usersList: User[] = [];
   loading = false;
+  errorMessage = '';
   private searchSubject = new Subject<string>();
 
   constructor(private apiService: ApiService) {
@@ -57,16 +66,38 @@ export class HomeComponent {
           }
         })
       )
-      .subscribe((users) => {
-        this.usersList = users.items;
-        this.loading = false;
+      .subscribe({
+        next: (users) => {
+          this.usersList = users.items;
+          this.loading = false;
+        },
+        error: (error) => {
+          this.loading = false;
+          this.errorMessage = 'There was an error! Please try again.';
+        },
+        complete: () => {
+          console.log('Completed!');
+          this.loading = false;
+        },
       });
   }
 
   ngOnInit(): void {
-    this.apiService.getAllUsers().subscribe((users) => {
-      this.usersList = users.items;
-      this.loading = false;
+    this.loading = true;
+    this.apiService.getAllUsers().subscribe({
+      next: (users) => {
+        this.usersList = users.items;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.loading = false;
+        console.error('There was an error!', error);
+        this.errorMessage = 'There was an error! Please try again.';
+      },
+      complete: () => {
+        console.log('Completed!');
+        this.loading = false;
+      },
     });
   }
 

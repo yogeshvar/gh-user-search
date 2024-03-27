@@ -16,6 +16,12 @@ input[type="text"] {
     width: 30%;
 }
 
+.error-text {
+    color: red;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 20px;
+}
 button {
     padding: 10px;
     border: solid 1px var(--primary-color);
